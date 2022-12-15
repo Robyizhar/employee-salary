@@ -14,7 +14,7 @@ class CreateMPenempatanTable extends Migration
     public function up()
     {
         Schema::create('m_penempatan', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('name');
             $table->integer('created_by')->nullable(true);
             $table->integer('updated_by')->nullable(true);

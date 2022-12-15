@@ -19,13 +19,10 @@ class AuthController extends Controller {
             'password' => 'required|string',
         ]);
 
-        // return $this->respond($request, 'Berhasil Login.',  200);
-
         $user = User::where('email', $request->email)->has('roles')->first();
 
-        if (empty($user) || !Hash::check($request->password, $user->password)) {
+        if (empty($user) || !Hash::check($request->password, $user->password))
             return $this->respondWithError('User Kredensial tidak ditemukan', 400);
-        }
 
         $credentials = [
             'tokenType' => 'Bearer',

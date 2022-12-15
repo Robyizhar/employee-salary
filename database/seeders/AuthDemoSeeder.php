@@ -44,6 +44,7 @@ class AuthDemoSeeder extends Seeder
         $dev->givePermissionTo(Permission::all());
 
         $user = User::factory()->create([
+            'id' => 0,
             'name' => 'Developer',
             'email' => 'dev@dev.com',
             'password' => Hash::make('dev')

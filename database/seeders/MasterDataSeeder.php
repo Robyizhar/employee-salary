@@ -209,36 +209,28 @@ class MasterDataSeeder extends Seeder
 
         for ($i=0; $i < count($departements); $i++) {
             MDepartemen::create([
-                'id' => $i+1,
                 'name' => $departements[$i]
             ]);
         }
 
         for ($i=0; $i < count($penempatans); $i++) {
             MPenempatan::create([
-                'id' => $i+1,
                 'name' => $penempatans[$i]
             ]);
         }
 
-        $id = 1;
         foreach ($bagians as $bagian) {
             MBagian::create([
-                'id' => $id,
                 'name' => $bagian['name'],
                 'm_departemen_id' => $bagian['m_departemen_id']
             ]);
-            $id++;
         }
 
-        $id = 1;
         foreach ($jabatans as $jabatan) {
             MJabatan::create([
-                'id' => $id,
                 'name' => $jabatan['name'],
                 'm_departemen_id' => $jabatan['m_departemen_id']
             ]);
-            $id++;
         }
 
     }

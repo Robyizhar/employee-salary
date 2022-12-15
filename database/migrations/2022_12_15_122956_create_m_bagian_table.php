@@ -14,7 +14,7 @@ class CreateMBagianTable extends Migration
     public function up()
     {
         Schema::create('m_bagian', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('name');
             $table->integer('m_departemen_id');
             $table->integer('created_by')->nullable(true);

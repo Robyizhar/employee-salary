@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\MKaryawan;
+use App\Models\User;
 use DB;
 
 class MKaryawanController extends Controller {
@@ -50,20 +52,43 @@ class MKaryawanController extends Controller {
     }
 
     public function store(Request $request) {
+        // return $request;
         $this->validate($request, [
             'name'            => 'required',
             'departemen_id'   => 'required|numeric|exists:App\Models\MDepartemen,id,deleted_at,NULL',
             'jabatan_id'      => 'required|numeric|exists:App\Models\MJabatan,id,deleted_at,NULL',
             'bagian_id'       => 'required|numeric|exists:App\Models\MBagian,id,deleted_at,NULL',
-            'penempatan_id'   => 'required|numeric|exists:App\Models\MPenempatan,id,deleted_at,NULL'
+            'penempatan_id'   => 'required|numeric|exists:App\Models\MPenempatan,id,deleted_at,NULL',
+            'gender'          => 'required|in:laki-laki,perempuan',
+            'phone_number'    => 'required',
+            'email'           => 'required|email',
+            'religion'        => 'required',
+            'no_ktp'          => 'required',
         ]);
 
         DB::beginTransaction();
         try {
+
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make('asdw')
+            ]);
+
             $response = MKaryawan::create([
                 'name'            => $request->name,
-                'm_departemen_id' => $request->departemen_id
+                'm_departemen_id' => $request->departemen_id,
+                'm_jabatan_id'    => $request->jabatan_id,
+                'm_bagian_id'     => $request->bagian_id,
+                'm_penempatan_id' => $request->penempatan_id,
+                'gender'          => $request->gender,
+                'phone_number'    => $request->phone_number,
+                'email'           => $request->email,
+                'religion'        => $request->religion,
+                'no_ktp'          => $request->no_ktp,
+                'user_id'         => $user->id
             ]);
+
             DB::commit();
             return $this->respond($response, 'berhasil menyimpan data', 200);
         } catch(\Exception $e) {
@@ -75,6 +100,9 @@ class MKaryawanController extends Controller {
     public function show($id) {
         try{
             $response = MKaryawan::with('departemen', 'bagian', 'jabatan', 'penempatan')->find($id);
+            if (!$response)
+                return $this->respondNotFound();
+
             return $this->respond($response, 'berhasil menampilkan data', 200);
         }catch(\Exception $e){
             return $this->respondWithError('gagal menampilkan data',500, $e->getMessage());
@@ -91,14 +119,27 @@ class MKaryawanController extends Controller {
             'departemen_id'   => 'required|numeric|exists:App\Models\MDepartemen,id,deleted_at,NULL',
             'jabatan_id'      => 'required|numeric|exists:App\Models\MJabatan,id,deleted_at,NULL',
             'bagian_id'       => 'required|numeric|exists:App\Models\MBagian,id,deleted_at,NULL',
-            'penempatan_id'   => 'required|numeric|exists:App\Models\MPenempatan,id,deleted_at,NULL'
+            'penempatan_id'   => 'required|numeric|exists:App\Models\MPenempatan,id,deleted_at,NULL',
+            'gender'          => 'required|in:laki-laki,perempuan',
+            'phone_number'    => 'required',
+            'email'           => 'required|email',
+            'religion'        => 'required',
+            'no_ktp'          => 'required',
         ]);
 
         DB::beginTransaction();
         try {
             $data->update([
-                'name'            =>  isset($request->name) ? $request->name : $data->name,
-                'm_departemen_id' =>  isset($request->departemen_id) ? $request->departemen_id : $data->m_departemen_id
+                'name'            => isset($request->name) ? $request->name : $data->name,
+                'm_departemen_id' => isset($request->departemen_id) ? $request->departemen_id : $data->m_departemen_id,
+                'm_jabatan_id'    => isset($request->jabatan_id) ? $request->jabatan_id : $data->m_jabatan_id,
+                'm_bagian_id'     => isset($request->bagian_id) ? $request->bagian_id : $data->m_bagian_id,
+                'm_penempatan_id' => isset($request->penempatan_id) ? $request->penempatan_id : $data->m_penempatan_id,
+                'gender'          => isset($request->gender) ? $request->gender : $data->gender,
+                'phone_number'    => isset($request->phone_number) ? $request->phone_number : $data->phone_number,
+                'email'           => isset($request->email) ? $request->email : $data->email,
+                'religion'        => isset($request->religion) ? $request->religion : $data->religion,
+                'no_ktp'          => isset($request->no_ktp) ? $request->no_ktp : $data->no_ktp,
             ]);
             DB::commit();
             return $this->respond($data, 'berhasil mengubah data', 200);

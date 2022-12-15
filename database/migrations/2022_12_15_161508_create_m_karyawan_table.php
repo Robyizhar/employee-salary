@@ -15,7 +15,7 @@ class CreateMKaryawanTable extends Migration
     {
         Schema::create('m_karyawan', function (Blueprint $table) {
 
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('name');
             $table->integer('m_departemen_id');
             $table->integer('m_bagian_id');

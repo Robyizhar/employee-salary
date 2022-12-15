@@ -34,6 +34,7 @@ class KaryawanSeeder extends Seeder {
                 'password' => Hash::make(str_replace(" ", "", $karyawan['no_karyawan']))
             ]);
             $birth = explode(",", $karyawan['ttl']);
+            $date = explode("-", $birth[1]);
 
             foreach ($jabatans as $jabatan) {
 
@@ -60,8 +61,9 @@ class KaryawanSeeder extends Seeder {
                         'education' => $karyawan['education'],
                         'address' => $karyawan['address'],
                         'place_birth' => $birth[0],
-                        'date_birth' => $now,
+                        'date_birth' => str_replace(" ", "", $date[2]).'-'.str_replace(" ", "", $date[1]).'-'.str_replace(" ", "", $date[0]),
                         'description' => $karyawan['description'],
+                        'created_by' => 0
                     ]);
                 }
             }
