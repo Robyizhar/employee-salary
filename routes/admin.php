@@ -4,11 +4,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Master\MKaryawanController;
 use App\Http\Controllers\Master\MDepartemenController;
 use App\Http\Controllers\Master\MPenempatanController;
 use App\Http\Controllers\Master\MBagianController;
 use App\Http\Controllers\Master\MJabatanController;
+use App\Http\Controllers\Master\MKaryawanController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -44,6 +44,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/{id}', [MJabatanController::class, 'show']);
         Route::put('/{id}/update', [MJabatanController::class, 'update']);
         Route::delete('/{id}/destroy', [MJabatanController::class, 'destroy']);
+    });
+
+    Route::prefix('/karyawan')->group(function () {
+        Route::get('/', [MKaryawanController::class, 'index']);
+        Route::post('/store', [MKaryawanController::class, 'store']);
+        Route::get('/{id}', [MKaryawanController::class, 'show']);
+        Route::put('/{id}/update', [MKaryawanController::class, 'update']);
+        Route::delete('/{id}/destroy', [MKaryawanController::class, 'destroy']);
     });
 
 });

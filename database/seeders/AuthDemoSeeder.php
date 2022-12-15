@@ -36,6 +36,7 @@ class AuthDemoSeeder extends Seeder
         Permission::create(['name' => 'master-jabatan', 'guard_name' => 'web' ]);
         Permission::create(['name' => 'master-penempatan', 'guard_name' => 'web' ]);
 
+        $karyawan = Role::create(['id' => 5, 'name' => 'Karyawan', 'guard_name' => 'web']);
         $admin = Role::create(['id' => 3, 'name' => 'Administrator', 'guard_name' => 'web']);
         $direktur = Role::create(['id' => 2, 'name' => 'Direktur', 'guard_name' => 'web']);
         $keuangan = Role::create(['id' => 1, 'name' => 'Keuangan', 'guard_name' => 'web']);
