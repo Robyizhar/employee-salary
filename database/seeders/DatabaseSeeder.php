@@ -14,8 +14,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            AuthDemoSeeder::class
+            // AuthDemoSeeder::class,
+            MasterDataSeeder::class
         ]);
-        // \App\Models\User::factory(10)->create();
     }
 }

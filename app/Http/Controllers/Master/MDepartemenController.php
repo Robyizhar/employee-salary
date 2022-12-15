@@ -20,7 +20,7 @@ class MDepartemenController extends Controller
         ]);
 
         try{
-            $country = MDepartemen::when($request->search, function($q) use($request){
+            $country = MDepartemen::with('jabatans', 'bagians')->when($request->search, function($q) use($request){
                 $q->where('name', 'like', '%'.$request->search.'%');
             })
             ->orderBy($request->sort_by ?? 'created_at', $request->sort_order ?? 'desc')
